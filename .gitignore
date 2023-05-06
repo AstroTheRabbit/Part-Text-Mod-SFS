@@ -1,0 +1,4 @@
+.DS_Store
+PartText/Dependencies/*
+PartText/bin
+PartText/obj
