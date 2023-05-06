@@ -21,7 +21,7 @@ namespace PartText
         public override Dictionary<string, string> Dependencies { get; } = new Dictionary<string, string> { { "UITools", "1.1.1" } };
         public Dictionary<string, FilePath> UpdatableFiles => new Dictionary<string, FilePath> { 
         {
-            "https://github.com/pixelgaming579/Part-Text-SFS/releases/latest/download/PartText.dll",
+            "https://github.com/pixelgaming579/Part-Text-Mod-SFS/releases/latest/download/PartText.dll",
             new FolderPath(ModFolder).ExtendToFile("PartText.dll")
         } };
 
