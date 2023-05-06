@@ -1,8 +1,5 @@
 using UnityEngine;
 using SFS.Parsers.Json;
-using SFS.Input;
-using ModLoader;
-using ModLoader.Helpers;
 
 namespace PartText
 {
