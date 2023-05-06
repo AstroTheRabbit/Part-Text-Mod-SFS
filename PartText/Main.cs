@@ -18,7 +18,7 @@ namespace PartText
         public override string ModVersion => "v1.0";
         public override string Description => "An alternative to the Part Editor mod, that allows you to edit parts as if they were in a text BP.";
         public override string IconLink => "https://i.imgur.com/ou34dVs.png";
-        public override Dictionary<string, string> Dependencies { get; } = new Dictionary<string, string> { { "UITools", "1.1.1" } };
+        public override Dictionary<string, string> Dependencies { get; } = new Dictionary<string, string> { { "UITools", "1.1.3" } };
         public Dictionary<string, FilePath> UpdatableFiles => new Dictionary<string, FilePath> { 
         {
             "https://github.com/pixelgaming579/Part-Text-Mod-SFS/releases/latest/download/PartText.dll",
