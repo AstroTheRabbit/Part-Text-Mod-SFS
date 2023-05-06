@@ -8,6 +8,9 @@ using System.Linq;
 using SFS.Parsers.Json;
 using SFS.World;
 using SFS.Parts.Modules;
+using System;
+using Type = SFS.UI.ModGUI.Type;
+using Object = UnityEngine.Object;
 
 namespace PartText
 {
@@ -26,6 +29,7 @@ namespace PartText
 
         public static void BuildLoad()
         {
+            SettingsManager.Load();
             BuildManager.main.selector.onSelectedChange += UpdateCurrentPart;
 
             Vector2Int windowSize = Vector2Int.RoundToInt(SettingsManager.settings.windowSize);
@@ -53,8 +57,8 @@ namespace PartText
 
             input = Builder.CreateTextInput(window, windowSize.x - 10, windowSize.y - 100, text: "", onChange: (string _) => { RemoveInvalidCharacters(); UpdateColor(); });
             input.field.onFocusSelectAll = false;
-            input.field.onSelect.AddListener((string _) => editingText = true);
             input.field.onSelect.AddListener((string _) => { UpdateCurrentPart(); });
+            input.field.onSelect.AddListener((string _) => editingText = true);
             input.field.onDeselect.AddListener((string _) => editingText = false);
             
             input.field.caretWidth = 2;
@@ -87,7 +91,7 @@ namespace PartText
 
                 currentPart.aboutToDestroy?.Invoke(currentPart);
                 BuildManager.main.buildGrid.RemoveParts(enableNonIntersecting: true, applyUndo: true, currentPart);
-				BuildManager.main.selector.Deselect(currentPart);
+                BuildManager.main.selector.Deselect(currentPart);
                 currentPart.DestroyPart(createExplosion: false, updateJoints: false, DestructionReason.Intentional);
 
                 PartSave newPartSave = JsonWrapper.FromJson<PartSave>(input.Text);
@@ -120,24 +124,28 @@ namespace PartText
 
         public static void UpdateCurrentPart()
         {
-            if (changingPart)
-                return;
-            
-            currentPart = BuildManager.main.selector.selected.Count == 1 ? BuildManager.main.selector.selected.First() : null;
-            
-            window.WindowColor = defaultWindowColor;
-            noSelectedPartText.Active = currentPart == null;
-            input.Active = currentPart != null;
-            savePartButton.Active = currentPart != null;
+            try
+            {
+                if (changingPart)
+                    return;
+                
+                currentPart = BuildManager.main.selector.selected.Count == 1 ? BuildManager.main.selector.selected.First() : null;
+                
+                window.WindowColor = defaultWindowColor;
+                noSelectedPartText.Active = currentPart == null;
+                input.Active = currentPart != null;
+                savePartButton.Active = currentPart != null;
 
-            if (currentPart != null)
-            {
-                input.Text = JsonWrapper.ToJson(new PartSave(currentPart), true);
-            }
-            else
-            {
-                input.Text = "";
-            }
+                if (currentPart != null)
+                {
+                    input.Text = JsonWrapper.ToJson(new PartSave(currentPart), true);
+                }
+                else
+                {
+                    input.Text = "";
+                }
+            } catch (NullReferenceException) { }
+
         }
 
         static void KeepWindowInView(Window window)
