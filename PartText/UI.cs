@@ -1,14 +1,15 @@
-using SFS.UI.ModGUI;
+using System;
+using System.Linq;
+using Newtonsoft.Json;
 using UnityEngine;
+using TMPro;
 using UITools;
 using SFS.Parts;
-using Newtonsoft.Json;
-using SFS.Builds;
-using System.Linq;
-using SFS.Parsers.Json;
 using SFS.World;
+using SFS.Builds;
+using SFS.UI.ModGUI;
+using SFS.Parsers.Json;
 using SFS.Parts.Modules;
-using System;
 using Type = SFS.UI.ModGUI.Type;
 using Object = UnityEngine.Object;
 
@@ -33,8 +34,8 @@ namespace PartText
             BuildManager.main.selector.onSelectedChange += UpdateCurrentPart;
 
             Vector2Int windowSize = Vector2Int.RoundToInt(SettingsManager.settings.windowSize);
-            windowHolder = Builder.CreateHolder(Builder.SceneToAttach.CurrentScene, "Part Text - Window Holder");
-            window = UITools.UIToolsBuilder.CreateClosableWindow
+            windowHolder = Builder.CreateHolder(Builder.SceneToAttach.CurrentScene, "Part Text GUI Holder");
+            window = UIToolsBuilder.CreateClosableWindow
             (
                 windowHolder.transform, windowID,
                 windowSize.x,
@@ -45,7 +46,7 @@ namespace PartText
                 true,
                 SettingsManager.settings.windowOpacity,
                 "Part Text",
-                SettingsManager.settings.windowMinimized
+                false
             );
             window.RegisterPermanentSaving(Main.main.ModNameID);
             window.RegisterOnDropListener(SettingsManager.Save);
@@ -58,13 +59,14 @@ namespace PartText
             input = Builder.CreateTextInput(window, windowSize.x - 10, windowSize.y - 100, text: "", onChange: (string _) => { RemoveInvalidCharacters(); UpdateColor(); });
             input.field.onFocusSelectAll = false;
             input.field.onSelect.AddListener((string _) => { UpdateCurrentPart(); });
+            input.field.onSelect.AddListener((_) => input.field.caretPosition = TMP_TextUtilities.GetCursorIndexFromPosition(input.field.textComponent, (Vector2)Input.mousePosition, null));
             input.field.onSelect.AddListener((string _) => editingText = true);
             input.field.onDeselect.AddListener((string _) => editingText = false);
             
             input.field.caretWidth = 2;
             input.field.pointSize = SettingsManager.settings.textSize;
-            input.field.textComponent.alignment = TMPro.TextAlignmentOptions.TopLeft;
-            input.field.lineType = TMPro.TMP_InputField.LineType.MultiLineNewline;
+            input.field.textComponent.alignment = TextAlignmentOptions.TopLeft;
+            input.field.lineType = TMP_InputField.LineType.MultiLineNewline;
             input.Active = false;
 
             savePartButton = Builder.CreateButton(window, windowSize.x - 20, 30, onClick: ApplyChanges, text: "Save Part");

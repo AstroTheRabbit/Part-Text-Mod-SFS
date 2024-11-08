@@ -15,10 +15,10 @@ namespace PartText
         public override string DisplayName => "Part Text";
         public override string Author => "pixelgaming579";
         public override string MinimumGameVersionNecessary => "1.5.8";
-        public override string ModVersion => "v1.0";
-        public override string Description => "An alternative to the Part Editor mod, that allows you to edit parts as if they were in a text BP.";
+        public override string ModVersion => "v1.1";
+        public override string Description => "An alternative to the Part Editor mod, that allows you to edit parts as text.";
         public override string IconLink => "https://i.imgur.com/ou34dVs.png";
-        public override Dictionary<string, string> Dependencies { get; } = new Dictionary<string, string> { { "UITools", "1.1.3" } };
+        public override Dictionary<string, string> Dependencies { get; } = new Dictionary<string, string> { { "UITools", "1.1.5" } };
         public Dictionary<string, FilePath> UpdatableFiles => new Dictionary<string, FilePath> { 
         {
             "https://github.com/pixelgaming579/Part-Text-Mod-SFS/releases/latest/download/PartText.dll",
@@ -33,10 +33,8 @@ namespace PartText
 
         public override void Load()
         {   
-            SettingsFilePath = new FolderPath(Main.main.ModFolder).ExtendToFile("Settings.txt");
+            SettingsFilePath = new FolderPath(main.ModFolder).ExtendToFile("Settings.txt");
             SettingsManager.Load();
-            // SettingsManager.settings = new Settings(); // TESTING ONLY!
-            // KeybindsManager.Setup();
             if (SettingsManager.settings.windowEnabled)
             {
                 SceneHelper.OnBuildSceneLoaded += UI.BuildLoad;
