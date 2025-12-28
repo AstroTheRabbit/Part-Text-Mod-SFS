@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using HarmonyLib;
+using UITools;
+using SFS.IO;
 using ModLoader;
 using ModLoader.Helpers;
-using SFS.IO;
-using UITools;
 
 namespace PartText
 {
-    public class Main : Mod, IUpdatable
+    public class Main : Mod // ! , IUpdatable
     {
         public static Main main;
 
