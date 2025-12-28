@@ -28,7 +28,7 @@ namespace PartText
         static bool changingPart = false;
         public static bool editingText = false;
 
-        public static void BuildLoad()
+        public static void OnBuildLoaded()
         {
             SettingsManager.Load();
             BuildManager.main.selector.onSelectedChange += UpdateCurrentPart;
@@ -75,7 +75,7 @@ namespace PartText
             window.Minimized = SettingsManager.settings.windowMinimized;
         }
 
-        public static void BuildUnload()
+        public static void OnBuildUnloaded()
         {
             SettingsManager.Save();
             Object.Destroy(windowHolder);

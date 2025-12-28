@@ -6,15 +6,16 @@ namespace PartText
     public static class SettingsManager
     {
         public static Settings settings;
+        private static IFile SettingsPath => new DefaultFolder(Main.main.ModFolder).GetFile("Settings.txt");
         public static void Save()
         {
             if (UI.window != null)
                 settings.windowMinimized = UI.window.Minimized;
-            JsonWrapper.SaveAsJson(Main.SettingsFilePath, settings, true);
+            JsonWrapper.SaveAsJson(SettingsPath, settings, true);
         }
         public static void Load()
         {
-            if (!JsonWrapper.TryLoadJson(Main.SettingsFilePath, out settings))
+            if (!JsonWrapper.TryLoadJson(SettingsPath, out settings))
             {
                 settings = new Settings();
                 Save();
@@ -31,21 +32,4 @@ namespace PartText
         public float windowOpacity = 1f;
         public int textSize = 20;
     }
-
-    // public class KeybindsManager : ModKeybindings
-    // {
-    //     public KeybindingsPC.Key Key_SavePart = KeybindingsPC.Key.Ctrl_(KeyCode.S);
-
-    //     public static KeybindsManager keybindsManager;
-	// 	public static void Setup()
-    //     {
-    //         keybindsManager = SetupKeybindings<KeybindsManager>(Main.main);
-    //     }
-    //     public override void CreateUI()
-    //     {
-    //         KeybindsManager defaults = new KeybindsManager();
-	// 		CreateUI_Text("Part Text");
-	// 		CreateUI_Keybinding(Key_SavePart, defaults.Key_SavePart, "Save Part");
-    //     }
-    // }
 }
