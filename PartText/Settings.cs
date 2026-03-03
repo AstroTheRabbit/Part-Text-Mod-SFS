@@ -1,29 +1,34 @@
+using System;
+using SFS.IO;
+using UITools;
 using UnityEngine;
-using SFS.Parsers.Json;
+
+// ReSharper disable ConvertToConstant.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
 
 namespace PartText
 {
-    public static class SettingsManager
+    public class Settings : ModSettings<SettingsData>
     {
-        public static Settings settings;
-        private static IFile SettingsPath => new DefaultFolder(Main.main.ModFolder).GetFile("Settings.txt");
-        public static void Save()
+        public static Settings Main { get; private set; }
+        public static Action Save { get; private set; }
+        protected override FilePath SettingsFile => new FolderPath(Entrypoint.Main.ModFolder).ExtendToFile("Settings.txt");
+        
+
+        public static void Init()
         {
-            if (UI.window != null)
-                settings.windowMinimized = UI.window.Minimized;
-            JsonWrapper.SaveAsJson(SettingsPath, settings, true);
+            Main = new Settings();
+            Main.Initialize();
         }
-        public static void Load()
+        
+        protected override void RegisterOnVariableChange(Action onChange)
         {
-            if (!JsonWrapper.TryLoadJson(SettingsPath, out settings))
-            {
-                settings = new Settings();
-                Save();
-            }
+            Application.quitting += Save = onChange;
         }
+
     }
 
-    public class Settings {
+    public class SettingsData {
         public bool disableDoubleClickSelect = false;
         public bool fixMirroringRotatedParts = true;
         public bool windowEnabled = true;
