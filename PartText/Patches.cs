@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using UnityEngine;
 using HarmonyLib;
 using SFS.Builds;
 using SFS.Input;
 using SFS.Parts;
 using SFS.Parts.Modules;
+using UnityEngine;
 
 namespace PartText
 {
@@ -15,7 +15,7 @@ namespace PartText
         {
             public static bool Prefix()
             {
-                return !SettingsManager.settings.disableDoubleClickSelect;
+                return !Settings.settings.disableDoubleClickSelect;
             }
         }
 
@@ -33,7 +33,7 @@ namespace PartText
         {
             public static bool Prefix(Orientation change, Vector2 pivot, IEnumerable<Part> parts)
             {
-                if (!SettingsManager.settings.fixMirroringRotatedParts)
+                if (!Settings.settings.fixMirroringRotatedParts)
                     return true;
 
                 foreach (Part part in parts)
@@ -44,7 +44,7 @@ namespace PartText
                         if (changeNew == new Orientation(-1,1,0))
                             changeNew = new Orientation(1,-1,0);
                         
-                        if (changeNew.x != 1 || changeNew.y != 1)
+                        if (!(Mathf.Approximately(changeNew.x, 1) && Mathf.Approximately(changeNew.y, 1)))
                             part.orientation.orientation.Value.z = 180 - part.orientation.orientation.Value.z;
                     }
 
