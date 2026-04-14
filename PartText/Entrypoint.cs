@@ -4,21 +4,22 @@ using JetBrains.Annotations;
 using ModLoader;
 using ModLoader.Helpers;
 using SFS.IO;
+using UITools;
 
 namespace PartText
 {
     [UsedImplicitly]
-    public class Entrypoint : Mod // ! , IUpdatable
+    public class Entrypoint : Mod, IUpdatable
     {
         public static Entrypoint Main { get; private set; }
 
         public override string ModNameID => "parttext";
         public override string DisplayName => "Part Text";
         public override string Author => "Astro The Rabbit";
-        public override string MinimumGameVersionNecessary => "1.6.0.14";
-        public override string ModVersion => "1.2";
+        public override string MinimumGameVersionNecessary => "1.6.00.16";
+        public override string ModVersion => "1.3";
         public override string Description => "An alternative to the Part Editor mod that allows you to edit parts as text.";
-        public override string IconLink => "https://i.imgur.com/ou34dVs.png";
+        public override string IconLink => "https://raw.githubusercontent.com/AstroTheRabbit/Part-Text-Mod-SFS/refs/heads/main/Images/Icon.png";
         
         public override Dictionary<string, string> Dependencies => new Dictionary<string, string>
         {

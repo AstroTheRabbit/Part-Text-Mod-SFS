@@ -25,7 +25,6 @@ namespace PartText
         {
             Application.quitting += Save = onChange;
         }
-
     }
 
     public class SettingsData {
